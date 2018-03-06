@@ -32,25 +32,26 @@ try:
     #print('Creating soup object ...')
     soup = BeautifulSoup(response_search_page.text,'lxml')
 except:
-    input('Could not make soup')
+    input('Could not make soup from response')
     sys.exit()
 
 try:
     #print("Finding 'article' div...")
     article_div = soup.find('div',{'class':'article'})
 except:
-    input('Failed to find article div')
+    input('Failed to find article div from soup')
     sys.exit()
 
 try:
     #print('Finding whether there are any results ...')
     result_header = soup.find(['h1']).text
-    print(result_header,'\n')
     if result_header.find('No results') >= 0:
         input(result_header)
         sys.exit()
+    print(result_header,'\n')
 except:
-    input('Failed to find result header')
+    #Failed to find result header in article div
+    input()
     sys.exit()
 
 try:
