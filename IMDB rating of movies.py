@@ -105,3 +105,5 @@ for movie in movies_info:
 
 for movie in movies:
     print(movie,'\n')
+
+input()
