@@ -51,7 +51,7 @@ try:
     print(result_header,'\n')
 except:
     #Failed to find result header in article div
-    input()
+    input('-----------------------------------------------------------------------------\n')
     sys.exit()
 
 try:
@@ -71,6 +71,7 @@ except:
 movies_info = []
 movies = []
 #print('iterating over movie list\n')
+print()
 for movie in moviesList:
     info = {}
     info['name'] = movie.text.strip()
@@ -88,22 +89,29 @@ for movie in moviesList:
             info['rating'] = 'Unrated'
         else:
             info['rating'] = rating_div.text.strip()
-
+            
+        print('Name:',info['name'])
+        print('Duration:',info['duration'])
+        if info['rating'] == 'Unrated':
+            print('Unrated Movie')
+        else:
+            print('Rating:',info['rating'])
+        print()
+        
         movies_info.append(info)
     except:
         movies.append(info['name'])
-
-print()
-for movie in movies_info:
-    print('Name:',movie['name'])
-    print('Duration:',movie['duration'])
-    if movie['rating'] == 'Unrated':
-        print('Movie Unrated')
-    else:
-        print('Rating:',movie['rating'])
-    print()
+        
+#-----------------------------------------------------------------------------
+#Here we also have details of movies in a list of dictionaries : movies_info
+        
+#[{'name' : 'movie name',
+#    'link' : "link to imdb page of movie,
+#    'duration' : 'duration of the movie',
+#    'rating' : 'rating of the movie}]
+#-----------------------------------------------------------------------------
 
 for movie in movies:
     print(movie,'\n')
 
-input()
+input('-----------------------------------------------------------------------------\n')
