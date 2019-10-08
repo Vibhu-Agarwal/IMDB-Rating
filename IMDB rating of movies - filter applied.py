@@ -77,30 +77,44 @@ for movie in moviesList:
     info['name'] = movie.text.strip()
     #------------------------------- Filter ----------------------------------
     if movie_name.upper() not in info['name'].upper().split(' '):
+        # print('\n"'+info['name']+'" Skipping ...')
         continue
     #------------------------------- Filter ----------------------------------
     info['link'] = movie.find(['a'])['href']
     try:
+        # print()
+        # print(info['name'], 'Requesting ...')
         movie_page_response = requests.get('http://www.imdb.com'+info['link'])
+        # print(info['name'], 'Got Response, Making soup ...')
         movie_soup = BeautifulSoup(movie_page_response.text,'lxml')
+        # print(info['name'], 'Soup Made, Finding title_bar_wrapper ...')
         title_strip = movie_soup.find('div',{'class':'title_bar_wrapper'})
         
+        # print(info['name'], 'Found title_bar_wrapper, Finding title_bar ...')
         title_bar = title_strip.find('div',{'class':'subtext'})
-        info['duration'] = title_bar.find('time',{'itemprop':'duration'}).text.strip()
 
+        # print(info['name'], 'Finding title, Getting Duration ...')
+        try:
+        	info['duration'] = title_bar.find('time').text.strip()
+        except Exception as e:
+        	info['duration'] = None
+        
+
+        # print(info['name'], 'Finding rating_div ...')
         rating_div = title_strip.find('div',{'class':'ratingValue'})
         if rating_div == None:
             info['rating'] = 'Unrated'
         else:
             info['rating'] = rating_div.text.strip()
             
+        print()
         print('Name:',info['name'])
-        print('Duration:',info['duration'])
+        if info['duration']:
+        	print('Duration:',info['duration'])
         if info['rating'] == 'Unrated':
             print('Unrated Movie')
         else:
             print('Rating:',info['rating'])
-        print()
         
         movies_info.append(info)
     except:
