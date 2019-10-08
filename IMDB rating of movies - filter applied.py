@@ -76,7 +76,7 @@ for movie in moviesList:
     info = {}
     info['name'] = movie.text.strip()
     #------------------------------- Filter ----------------------------------
-    if movie_name.upper() not in info['name'].upper():
+    if movie_name.upper() not in info['name'].upper().split(' '):
         continue
     #------------------------------- Filter ----------------------------------
     info['link'] = movie.find(['a'])['href']
